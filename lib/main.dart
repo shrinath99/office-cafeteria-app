@@ -1,5 +1,6 @@
 import 'package:apnatiffin/Form.dart';
 import 'package:apnatiffin/Login.dart';
+//import 'package:apnatiffin/PreviewScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,13 +13,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        fontFamily: 'RobotoMono',
+        fontFamily: 'Hachi Maru Pop',
         // textTheme: TextTheme(headline1:robotoMono()),
       ),
       initialRoute: '/',
       routes: {
         '/': (context) => FormHome(),
         '/login': (context) => LoginPage(),
+        //'/previewscreen': (context) => Preview(),
       },
     );
   }
