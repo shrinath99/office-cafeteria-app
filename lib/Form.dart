@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:email_validator/email_validator.dart';
+//import 'dart:js';
+//import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-
+import 'Dialogbox.dart';
 import 'Constants.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,6 +24,8 @@ class _FormHomeState extends State<FormHome> {
   String _mobileNo;
   String _email;
 
+  bool flag = false;
+
   // ignore: non_constant_identifier_names
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
@@ -30,6 +33,9 @@ class _FormHomeState extends State<FormHome> {
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
+    // _image = File(pickedFile.path);
+    flag = true;
+    //_image = await picker.getImage(source: ImageSource.camera);
 
     setState(() {
       if (pickedFile != null) {
@@ -47,6 +53,7 @@ class _FormHomeState extends State<FormHome> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.yellow,
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'Apna tiffin',
           style: TextStyle(
@@ -94,15 +101,6 @@ class _FormHomeState extends State<FormHome> {
                     textAlign: TextAlign.center,
 
                     decoration: kTextFieldDecorator.copyWith(
-                      // errorText: _validate ? 'Can\'t be empty' : null,
-                      //labelText: 'Full Name',
-                      //alignLabelWithHint: false,
-
-                      /*  labelStyle: TextStyle(
-                          //textBaseline: TextBaseline.
-
-                          color: Colors.black,
-                        ),*/
                       icon: Icon(
                         Icons.account_circle,
                         color: Colors.black,
@@ -232,37 +230,6 @@ class _FormHomeState extends State<FormHome> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    cursorColor: Colors.black,
-                    cursorHeight: 30,
-                    style: TextStyle(
-                      fontSize: 20,
-                      //fontWeight: FontWeight.w300,
-                    ),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: kTextFieldDecorator.copyWith(
-                      // errorText: _validate ? 'Can\'t be empty' : null,
-                      icon: Icon(
-                        Icons.email,
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                      hintText: 'Email',
-                      hintStyle:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
-                    ),
-                    validator: (val) => !EmailValidator.validate(val, true)
-                        ? 'Not a valid email.'
-                        : null,
-                    onSaved: (String value) {
-                      _email = value;
-                    },
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
                   FloatingActionButton.extended(
                     heroTag: null,
                     onPressed: getImage,
@@ -281,7 +248,17 @@ class _FormHomeState extends State<FormHome> {
                   ),
                   Container(
                     child: _image == null
-                        ? Text('ID Card Not Selected.')
+                        ? /*AlertDialog(
+                            title: Text("My title"),
+                            content: Text("This is my message."),
+                            actions: [
+                              okButton,
+                            ],
+                          )*/
+                        Text(
+                            'ID Card not uploaded',
+                            style: TextStyle(color: Colors.red),
+                          )
                         : Text('ID Card uploaded'),
                   ),
                   SizedBox(
@@ -302,35 +279,32 @@ class _FormHomeState extends State<FormHome> {
                       print(_organisationName);
                       print(_id);
                       print(_mobileNo);
-                      print(_email);
+                      //print(_email);
 
-                      // Navigator.pushNamed(context, '/previewscreen');
-                      //Navigator.push(context, MaterialPageRoute(builder: => Preview(),),);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Preview(
-                                name: _name,
-                                organisationName: _organisationName,
-                                empId: _id,
-                                mobileNo: _mobileNo,
-                                email: _email,
-                                idImage: _image);
-                          },
-                        ),
-                      );
-
-                      setState(() {});
+                      if (flag == false) {
+                        dialogBox(context);
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Preview(
+                                  name: _name,
+                                  organisationName: _organisationName,
+                                  empId: _id,
+                                  mobileNo: _mobileNo,
+                                  email: _email,
+                                  idImage: _image);
+                            },
+                          ),
+                        );
+                      }
                     },
 
                     backgroundColor: Colors.yellow,
                     label: Text(
                       'Preview',
                     ),
-                    //hoverElevation: 30,
-
-                    // style: TextStyle(Colors.black)),
                     splashColor: Colors.black,
 
                     icon: Icon(

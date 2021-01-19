@@ -75,8 +75,8 @@ class Preview extends StatelessWidget {
                                 Text('$organisationName', style: KPreviewText),
                                 KSizedBoxPreview,
                                 Text('$empId', style: KPreviewText),
-                                KSizedBoxPreview,
-                                Text('$email', style: KPreviewText),
+                                /*KSizedBoxPreview,
+                                Text('$email', style: KPreviewText),*/
                                 KSizedBoxPreview,
                                 Text('$mobileNo', style: KPreviewText),
                               ],
@@ -84,7 +84,9 @@ class Preview extends StatelessWidget {
                           ],
                         ),
                       ),
-                      KSizedBoxPreview,
+                      SizedBox(
+                        height: 10,
+                      ),
                       FloatingActionButton.extended(
                         label: Text('Submit'),
                         backgroundColor: Colors.yellow,

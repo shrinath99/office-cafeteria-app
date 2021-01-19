@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Constants.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  final _auth = FirebaseAuth.instance;
   String email;
   String password;
 
@@ -76,6 +78,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       : null,
                   onSaved: (String value) {
                     email = value;
+                    print(email);
                   },
                 ),
                 SizedBox(
@@ -89,7 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     fontSize: 20,
                   ),
                   textAlign: TextAlign.center,
-                  keyboardType: TextInputType.emailAddress,
+
                   decoration: kTextFieldDecorator.copyWith(
                     hintText: 'Enter your password',
                     icon: Icon(Icons.lock, color: Colors.black),
@@ -103,19 +106,35 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       return 'required 6 charactes';
                     }
                   },
+
+                  onSaved: (String value) {
+                    password = value;
+                    print(password);
+                  },
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 FloatingActionButton.extended(
                   heroTag: null,
-                  onPressed: () {
+                  onPressed: () async {
                     if (!_key.currentState.validate()) {
                       // _validate = true;
                       return;
                     }
                     _key.currentState.save();
-                    Navigator.pushNamed(context, '/login');
+                    //Navigator.pushNamed(context, '/login');
+
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                      if (newUser != null) {
+                        Navigator.pushNamed(context, '/login');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   label: Text('Submit'),
                   //tooltip: 'Pick Image',

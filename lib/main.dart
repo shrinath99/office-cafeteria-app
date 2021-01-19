@@ -1,9 +1,14 @@
 import 'package:apnatiffin/Form.dart';
 import 'package:apnatiffin/Login.dart';
+import 'package:apnatiffin/Registration.dart';
+import 'package:apnatiffin/WelcomePage.dart';
 //import 'package:apnatiffin/PreviewScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -18,8 +23,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => FormHome(),
+        '/': (context) => WelcomeScreen(),
         '/login': (context) => LoginPage(),
+        '/registration': (context) => RegistrationPage(),
+        '/form': (context) => FormHome(),
+
         //'/previewscreen': (context) => Preview(),
       },
     );

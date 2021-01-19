@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "830699188324",
+    "project_id": "apna-tiffin",
+    "storage_bucket": "apna-tiffin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830699188324:android:df26bf0fbd7c08d8742f71",
+        "android_client_info": {
+          "package_name": "com.shrinathaengandul.apnatiffin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830699188324-9q79ukld74vuvblldioqr265iqhjonaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2sQe_5iysEyXtZYaVz7h1huLbFC5qDEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830699188324-9q79ukld74vuvblldioqr265iqhjonaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
