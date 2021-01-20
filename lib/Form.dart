@@ -282,7 +282,7 @@ class _FormHomeState extends State<FormHome> {
                       //print(_email);
 
                       if (flag == false) {
-                        dialogBox(context);
+                        dialogBox(context, 'Upload ID card');
                       } else {
                         Navigator.push(
                           context,

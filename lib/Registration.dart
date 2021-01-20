@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Constants.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'Dialogbox.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -132,8 +133,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       if (newUser != null) {
                         Navigator.pushNamed(context, '/login');
                       }
-                    } catch (e) {
-                      print(e);
+                    } on FirebaseAuthException catch (e) {
+                      Navigator.pop(context);
+                      dialogBox(context, e.message);
                     }
                   },
                   label: Text('Submit'),

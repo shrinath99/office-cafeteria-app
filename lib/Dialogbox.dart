@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<void> dialogBox(BuildContext context) {
+Future<void> dialogBox(BuildContext context, String message) {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -9,7 +9,7 @@ Future<void> dialogBox(BuildContext context) {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        title: Text('Upload ID card'),
+        title: Text(message),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

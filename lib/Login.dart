@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Constants.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'Dialogbox.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -149,10 +150,12 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushNamed(context, '/form');
                       }
                     } on FirebaseAuthException catch (e) {
-                      Container(
+                      /*Container(
                         child: Text(e.message),
                       );
-                      print(e.message);
+                      print(e.message);*/
+                      Navigator.pop(context);
+                      dialogBox(context, e.message);
                     }
 
                     // Navigator.pushNamed(context, '/form');
