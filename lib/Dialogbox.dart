@@ -9,7 +9,9 @@ Future<void> dialogBox(BuildContext context, String message) {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(32.0))),
-        title: Text(message),
+        title: Center(
+          child: Text(message),
+        ),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

@@ -1,5 +1,7 @@
+import 'package:apnatiffin/Fooditems.dart';
 import 'package:apnatiffin/Form.dart';
 import 'package:apnatiffin/Login.dart';
+import 'package:apnatiffin/OrderPage.dart';
 import 'package:apnatiffin/Registration.dart';
 import 'package:apnatiffin/WelcomePage.dart';
 //import 'package:apnatiffin/PreviewScreen.dart';
@@ -23,10 +25,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => WelcomeScreen(),
+        '/': (context) => OrderPage(),
         '/login': (context) => LoginPage(),
         '/registration': (context) => RegistrationPage(),
         '/form': (context) => FormHome(),
+        '/fooditems': (context) => FoodList(),
+        '/orderpage': (context) => OrderPage(),
 
         //'/previewscreen': (context) => Preview(),
       },

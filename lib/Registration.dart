@@ -3,6 +3,7 @@ import 'Constants.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Dialogbox.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _auth = FirebaseAuth.instance;
   String email;
   String password;
+
+  bool runSpinner = false;
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   @override
@@ -31,124 +34,141 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
         backgroundColor: Colors.yellow,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(right: 30, left: 10),
-        child: Form(
-          key: _key,
-          child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 120,
-                  width: 120,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/tiffinlogo.png'),
-                        fit: BoxFit.fill,
+      body: ModalProgressHUD(
+        inAsyncCall: runSpinner,
+        child: Padding(
+          padding: EdgeInsets.only(right: 30, left: 10),
+          child: Form(
+            key: _key,
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 150,
+                    ),
+                    Hero(
+                      tag: 'logo',
+                      child: Container(
+                        height: 140,
+                        width: 140,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('images/tiffinlogo.png'),
+                              fit: BoxFit.fill,
+                            ),
+                            shape: BoxShape.circle,
+                            //borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                       ),
-                      shape: BoxShape.circle,
-                      //borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  cursorColor: Colors.black,
-                  cursorHeight: 30,
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: kTextFieldDecorator.copyWith(
-                    hintText: 'Enter your email',
-
-                    icon: Icon(
-                      Icons.email,
-                      color: Colors.black,
+                    SizedBox(
+                      height: 10,
                     ),
-                    //labelText: 'Email',
-                  ),
-                  validator: (val) => !EmailValidator.validate(val, true)
-                      ? 'Not a valid email.'
-                      : null,
-                  onSaved: (String value) {
-                    email = value;
-                    print(email);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  cursorColor: Colors.black,
-                  obscureText: true,
-                  cursorHeight: 30,
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
+                    TextFormField(
+                      cursorColor: Colors.black,
+                      cursorHeight: 30,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: kTextFieldDecorator.copyWith(
+                        hintText: 'Enter your email',
 
-                  decoration: kTextFieldDecorator.copyWith(
-                    hintText: 'Enter your password',
-                    icon: Icon(Icons.lock, color: Colors.black),
-                    //labelText: 'Email',
-                  ),
-                  // ignore: missing_return
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Can\'t be empty';
-                    } else if (value.length < 6) {
-                      return 'required 6 charactes';
-                    }
-                  },
+                        icon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                        ),
+                        //labelText: 'Email',
+                      ),
+                      validator: (val) => !EmailValidator.validate(val, true)
+                          ? 'Not a valid email.'
+                          : null,
+                      onSaved: (String value) {
+                        email = value;
+                        print(email);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      cursorColor: Colors.black,
+                      obscureText: true,
+                      cursorHeight: 30,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
 
-                  onSaved: (String value) {
-                    password = value;
-                    print(password);
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                FloatingActionButton.extended(
-                  heroTag: null,
-                  onPressed: () async {
-                    if (!_key.currentState.validate()) {
-                      // _validate = true;
-                      return;
-                    }
-                    _key.currentState.save();
-                    //Navigator.pushNamed(context, '/login');
+                      decoration: kTextFieldDecorator.copyWith(
+                        hintText: 'Enter your password',
+                        icon: Icon(Icons.lock, color: Colors.black),
+                        //labelText: 'Email',
+                      ),
+                      // ignore: missing_return
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Can\'t be empty';
+                        } else if (value.length < 6) {
+                          return 'required 6 charactes';
+                        }
+                      },
 
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {
-                        Navigator.pushNamed(context, '/login');
-                      }
-                    } on FirebaseAuthException catch (e) {
-                      Navigator.pop(context);
-                      dialogBox(context, e.message);
-                    }
-                  },
-                  label: Text('Submit'),
-                  //tooltip: 'Pick Image',
-                  icon: Icon(
-                    Icons.send,
-                    size: 30,
-                  ),
-                  backgroundColor: Colors.yellow,
-                  splashColor: Colors.black,
-                  foregroundColor: Colors.black,
+                      onSaved: (String value) {
+                        password = value;
+                        print(password);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FloatingActionButton.extended(
+                      heroTag: null,
+                      onPressed: () async {
+                        if (!_key.currentState.validate()) {
+                          // _validate = true;
+                          return;
+                        }
+                        _key.currentState.save();
+                        //Navigator.pushNamed(context, '/login');
+                        setState(() {
+                          runSpinner = true;
+                        });
+
+                        try {
+                          final newUser =
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                          if (newUser != null) {
+                            Navigator.pushNamed(context, '/login');
+                          }
+                          setState(() {
+                            runSpinner = false;
+                          });
+                        } on FirebaseAuthException catch (e) {
+                          Navigator.pop(context);
+                          dialogBox(context, e.message);
+                        }
+                      },
+                      label: Text('Submit'),
+                      //tooltip: 'Pick Image',
+                      icon: Icon(
+                        Icons.send,
+                        size: 30,
+                      ),
+                      backgroundColor: Colors.yellow,
+                      splashColor: Colors.black,
+                      foregroundColor: Colors.black,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

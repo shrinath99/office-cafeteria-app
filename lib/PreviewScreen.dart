@@ -1,8 +1,13 @@
 import 'dart:io';
+//import 'package:firebase_auth/firebase_auth.dart';
 
+import 'Dialogbox.dart';
 import 'package:apnatiffin/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 
 class Preview extends StatelessWidget {
   Preview({
@@ -21,20 +26,24 @@ class Preview extends StatelessWidget {
   final String email;
   final File idImage;
 
+  final _fireStore = FirebaseFirestore.instance;
+  final String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
+  //User user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 5,
-                child: Card(
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
                   margin: EdgeInsets.all(20),
                   //shadowColor: Colors.yellow,
                   color: Colors.white,
@@ -51,7 +60,7 @@ class Preview extends StatelessWidget {
                         child: Container(
                           // padding: EdgeInsets.all(20),
                           /*height: 100,
-                          width: 300,*/
+                            width: 300,*/
                           margin: EdgeInsets.only(
                               left: 20, right: 20, top: 10, bottom: 18),
                           child: ClipRRect(
@@ -75,8 +84,6 @@ class Preview extends StatelessWidget {
                                 Text('$organisationName', style: KPreviewText),
                                 KSizedBoxPreview,
                                 Text('$empId', style: KPreviewText),
-                                /*KSizedBoxPreview,
-                                Text('$email', style: KPreviewText),*/
                                 KSizedBoxPreview,
                                 Text('$mobileNo', style: KPreviewText),
                               ],
@@ -92,7 +99,31 @@ class Preview extends StatelessWidget {
                         backgroundColor: Colors.yellow,
                         foregroundColor: Colors.black,
                         splashColor: Colors.black,
-                        onPressed: () {},
+                        onPressed: () {
+                          _fireStore.collection('user').add({
+                            'date': date,
+                            'empIdNo': empId,
+                            'mobileNo': mobileNo,
+                            'name': name,
+                            'organisationName': organisationName,
+                          });
+
+                          String imageId =
+                              DateTime.now().microsecondsSinceEpoch.toString();
+                          Reference ref =
+                              FirebaseStorage.instance.ref().child(imageId);
+
+                          ref.putFile(idImage);
+
+                          Navigator.pushNamed(context, '/fooditems');
+
+                          //print(user.uid);
+                          // String uid1 = user.uid;
+
+                          //dialogBox(context, 'Registration successful');
+
+                          //TaskSnapshot taskSnapshot = await uploadTask.o
+                        },
                         icon: Icon(
                           Icons.subdirectory_arrow_right,
                           size: 30,
@@ -101,8 +132,8 @@ class Preview extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
