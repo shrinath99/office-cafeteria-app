@@ -7,6 +7,7 @@ import 'package:apnatiffin/WelcomePage.dart';
 //import 'package:apnatiffin/PreviewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Payment.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +26,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => OrderPage(),
+        '/': (context) => WelcomeScreen(),
         '/login': (context) => LoginPage(),
         '/registration': (context) => RegistrationPage(),
         '/form': (context) => FormHome(),
         '/fooditems': (context) => FoodList(),
         '/orderpage': (context) => OrderPage(),
+        '/payment': (context) => PaymentScreen(),
 
         //'/previewscreen': (context) => Preview(),
       },

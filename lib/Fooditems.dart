@@ -1,9 +1,15 @@
+import 'package:apnatiffin/OrderPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'FoodListInfo.dart';
+//import 'FoodListInfo.dart';
 import 'FoodInfo.dart';
+//import 'OrderPage.dart';
 
 class FoodList extends StatelessWidget {
+  String title;
+  String price;
+  Image image;
+  int id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +38,17 @@ class FoodList extends StatelessWidget {
               children: foodItems.map((items) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/orderpage');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return OrderPage(
+                          title: items.title,
+                          price: items.price,
+                          image: items.image,
+                          id: items.id,
+                        );
+                      }),
+                    );
                   },
                   child: Card(
                     shadowColor: Colors.black,
@@ -62,15 +78,19 @@ class FoodList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            child: items.image,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(60),
+                          Hero(
+                            //tag: 'menuphoto',
+                            tag: "avatar_" + items.id.toString(),
+                            child: Container(
+                              child: items.image,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(60),
+                                ),
                               ),
+                              margin: EdgeInsets.only(
+                                  top: 10, left: 10, bottom: 10),
                             ),
-                            margin:
-                                EdgeInsets.only(top: 10, left: 10, bottom: 10),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10, left: 10),
