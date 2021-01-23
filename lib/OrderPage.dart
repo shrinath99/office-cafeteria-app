@@ -59,7 +59,9 @@ class OrderPage extends StatelessWidget {
                 height: 20,
               ),
               FloatingActionButton.extended(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/payment');
+                },
                 label: Text('Order now'),
                 splashColor: Colors.black,
                 backgroundColor: Colors.yellow,
