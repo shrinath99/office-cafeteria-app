@@ -1,16 +1,8 @@
 # apnatiffin
 
-A new Flutter application.
+This is prototype where you place the order while you are at your office desk itself, which means you skip the queues and don’t need to wait for the food to be prepared by your cafeteria kitchen. You make the payment for the food via the app itself. You will be notified when your order is ready, and you can collect your order from the cafeteria.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+# DEMO
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://youtu.be/z0ITGhFtCXk
